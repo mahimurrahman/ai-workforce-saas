@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Workforce Chat</title>
+    <link rel="stylesheet" href="/static/chat.css" />
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>AI Workforce</h2>
+                <p class="system-status">
+                    <span class="status-indicator"></span>
+                    System Healthy
+                </p>
+            </div>
+            
+            <div class="agents-panel">
+                <h3>Agents</h3>
+                <div class="agent-list">
+                    <div class="agent-item">
+                        <span class="agent-icon">💬</span>
+                        <div class="agent-info">
+                            <div class="agent-name">Support</div>
+                            <div class="agent-status">Ready</div>
+                        </div>
+                    </div>
+                    <div class="agent-item">
+                        <span class="agent-icon">🛍️</span>
+                        <div class="agent-info">
+                            <div class="agent-name">Sales</div>
+                            <div class="agent-status">Ready</div>
+                        </div>
+                    </div>
+                    <div class="agent-item">
+                        <span class="agent-icon">⚙️</span>
+                        <div class="agent-info">
+                            <div class="agent-name">Ops</div>
+                            <div class="agent-status">Ready</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="model-info">
+                <strong>Model:</strong>
+                <p>llama-3.3-70b-versatile</p>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-container">
+            <!-- Header -->
+            <header class="chat-header">
+                <div class="header-content">
+                    <h1>Chat with AI Workforce</h1>
+                    <p>Messages are routed to the right agent automatically</p>
+                </div>
+                <button class="btn-clear" title="Clear chat history">🗑️</button>
+            </header>
+
+            <!-- Messages -->
+            <div class="messages-wrapper">
+                <div class="messages" id="messages">
+                    <div class="message system">
+                        <div class="message-content">
+                            <p>Welcome! Chat with our AI agents. They'll help with support, sales, or operations inquiries.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <footer class="chat-footer">
+                <form id="chat-form" class="input-form">
+                    <input 
+                        type="text" 
+                        id="message-input" 
+                        class="message-input" 
+                        placeholder="Type your message... (can also use Shift+Enter for newline)"
+                        autocomplete="off"
+                    />
+                    <button type="submit" class="btn-send" id="send-btn">
+                        <span>Send</span>
+                        <span class="send-icon">→</span>
+                    </button>
+                </form>
+                <p class="input-hint">Tip: Messages are automatically routed to Support, Sales, or Ops agents based on content.</p>
+            </footer>
+        </main>
+    </div>
+
+    <script src="/static/chat.js"></script>
+</body>
+</html>

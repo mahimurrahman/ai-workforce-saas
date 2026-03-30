@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Workforce Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <h1>{{ project_name }}</h1>
+                <div class="health-badge">
+                    <span class="status-dot ok"></span>
+                    <span>System Healthy</span>
+                </div>
+            </div>
+            <p class="subtitle">Intelligent agent orchestration system | Model: llama-3.3-70b-versatile</p>
+        </header>
+
+        <section class="agents-grid">
+            <article class="agent-card">
+                <div class="agent-header">
+                    <h3>💬 Support Agent</h3>
+                    <span class="status-badge ready">{{ status_items.get('support', 'ready') }}</span>
+                </div>
+                <p class="agent-desc">Handles customer support, refunds, account issues, and technical help</p>
+                <div class="example-keywords">
+                    <strong>Keywords:</strong> help, refund, support, ticket, account
+                </div>
+            </article>
+
+            <article class="agent-card">
+                <div class="agent-header">
+                    <h3>🛍️ Sales Agent</h3>
+                    <span class="status-badge ready">{{ status_items.get('sales', 'ready') }}</span>
+                </div>
+                <p class="agent-desc">Manages sales inquiries, pricing, demos, and new customer leads</p>
+                <div class="example-keywords">
+                    <strong>Keywords:</strong> price, buy, demo, pricing, trial
+                </div>
+            </article>
+
+            <article class="agent-card">
+                <div class="agent-header">
+                    <h3>⚙️ Ops Agent</h3>
+                    <span class="status-badge ready">{{ status_items.get('ops', 'ready') }}</span>
+                </div>
+                <p class="agent-desc">Manages workflows, admin tasks, data processing, and CRM operations</p>
+                <div class="example-keywords">
+                    <strong>Keywords:</strong> workflow, admin, data, process, CRM
+                </div>
+            </article>
+        </section>
+
+        <section class="test-section">
+            <h2>Test Your Agents</h2>
+            <div class="test-container">
+                <div class="form-wrapper">
+                    <form id="chat-form">
+                        <div class="form-group">
+                            <label for="message">Message:</label>
+                            <textarea id="message" placeholder="Try: 'I need help with my order' or 'What's your pricing?'" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="user_id">User ID:</label>
+                            <input type="number" id="user_id" value="1" required />
+                        </div>
+                        <button type="submit" class="btn-send">Send Message</button>
+                    </form>
+                </div>
+                <div class="response-wrapper">
+                    <h3>Response:</h3>
+                    <pre id="response">Ready to receive messages...</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="activity">
+            <h2>Quick Start</h2>
+            <div class="quick-start">
+                <p>✓ All agents are running and ready</p>
+                <p>✓ Set your GROQ_API_KEY in .env to enable real AI responses</p>
+                <p>✓ Use the form above to test agent routing (selected by message keywords)</p>
+                <p>✓ Or send requests via API: <code>POST /api/chat</code></p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const form = document.getElementById('chat-form');
+        const responseElement = document.getElementById('response');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const message = document.getElementById('message').value;
+            const user_id = Number(document.getElementById('user_id').value);
+
+            responseElement.textContent = '⏳ Sending message...';
+
+            try {
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, user_id }),
+                });
+                
+                if (!res.ok) {
+                    throw new Error(`HTTP ${res.status}`);
+                }
+                
+                const data = await res.json();
+                let displayText = `Agent: ${data.agent_type.toUpperCase()}\n`;
+                displayText += `Confidence: ${(data.confidence * 100).toFixed(0)}%\n`;
+                displayText += `\n${data.response}`;
+                responseElement.textContent = displayText;
+                
+                // Scroll to response
+                responseElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } catch (err) {
+                responseElement.textContent = '❌ Error: ' + err.message;
+            }
+        });
+
+        // Example click handlers
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                form.dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>
