@@ -34,9 +34,9 @@ async def dashboard(request: Request):
     }
 
     return templates.TemplateResponse(
+        request,
         "dashboard.html",
         {
-            "request": request,
             "project_name": settings.PROJECT_NAME,
             "status_items": status_items,
             "recent_activity": recent_activity,
@@ -45,4 +45,4 @@ async def dashboard(request: Request):
 
 @app.get("/chat")
 async def chat(request: Request):
-    return templates.TemplateResponse("chat.html", {"request": request})
+    return templates.TemplateResponse(request, "chat.html", {})

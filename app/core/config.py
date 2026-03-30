@@ -1,3 +1,4 @@
+from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
@@ -7,7 +8,6 @@ class Settings(BaseSettings):
     REDIS_URL: str = "redis://redis:6379"
     GROQ_API_KEY: str = ""
 
-    class Config:
-        env_file = ".env"
+    model_config = ConfigDict(env_file=".env")
 
 settings = Settings()

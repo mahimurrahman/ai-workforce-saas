@@ -1,25 +1,36 @@
-import groq
-from app.core.config import settings
+from typing import Any
+
+from app.agents.base import BaseAgent
 from app.agents.ops.prompts import OPS_SYSTEM_PROMPT
 
-class OpsAgent:
-    def __init__(self):
-        self.client = groq.Groq(api_key=settings.GROQ_API_KEY)
+class OpsAgent(BaseAgent):
+    agent_type = "ops"
+    system_prompt = OPS_SYSTEM_PROMPT
+    max_tokens = 250
+    temperature = 0.25
 
-    async def process_message(self, message: str) -> str:
-        if not settings.GROQ_API_KEY or settings.GROQ_API_KEY.startswith("your_") or len(settings.GROQ_API_KEY) < 50:
-            return "[OpsAgent] Dry-run mode: mock response for testing. Set GROQ_API_KEY in .env to enable real responses."
-
-        try:
-            response = self.client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
-                messages=[
-                    {"role": "system", "content": OPS_SYSTEM_PROMPT},
-                    {"role": "user", "content": message}
-                ],
-                max_tokens=200,
-                temperature=0.25,
+    def _dry_run_response(
+        self,
+        message: str,
+        history: list[dict[str, Any]] | None = None,
+    ) -> str:
+        previous_context = self._last_user_context(history)
+        if "workflow" in message.lower() or "process" in message.lower():
+            return (
+                "Ops here. I can help update the workflow. "
+                "Tell me the current steps, the bottleneck, and the desired handoff, and I will turn that into an operational sequence."
             )
-            return response.choices[0].message.content
-        except Exception as e:
-            return f"Sorry, I cannot process your request right now. Error: {str(e)}"
+        if "admin" in message.lower() or "data" in message.lower():
+            return (
+                "Ops here. I can handle admin and data operations. "
+                "Share the record source, the fields that need to change, and the target system so I can map the update flow."
+            )
+        if previous_context and previous_context.lower() != message.lower():
+            return (
+                f"Ops here. I still have the prior operating context in mind: \"{previous_context}\". "
+                f"My next action for this follow-up would be to update the process around: {message}."
+            )
+        return (
+            "Ops here. I can help with workflows, admin requests, integrations, and data operations. "
+            f"From your message, I would start by mapping the current process and the requested change: {message}."
+        )

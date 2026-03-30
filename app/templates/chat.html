@@ -7,88 +7,112 @@
     <link rel="stylesheet" href="/static/chat.css" />
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2>AI Workforce</h2>
-                <p class="system-status">
-                    <span class="status-indicator"></span>
-                    System Healthy
+    <div class="chat-shell">
+        <aside class="workspace-panel">
+            <div class="brand-block">
+                <p class="eyebrow">AI Workforce SaaS</p>
+                <h1>Conversation workspace for your routed team</h1>
+                <p class="lede">
+                    One thread, three specialist lanes, and persistent conversation memory that keeps context between turns.
                 </p>
+                <div class="hero-links">
+                    <a href="/dashboard" class="panel-link">Open Dashboard</a>
+                    <span class="panel-caption">Use the dashboard for routing tests and lane overview.</span>
+                </div>
             </div>
-            
-            <div class="agents-panel">
-                <h3>Agents</h3>
+
+            <div class="panel-card">
+                <p class="card-title">Routing lanes</p>
                 <div class="agent-list">
-                    <div class="agent-item">
-                        <span class="agent-icon">💬</span>
-                        <div class="agent-info">
-                            <div class="agent-name">Support</div>
-                            <div class="agent-status">Ready</div>
+                    <div class="agent-item support">
+                        <span class="agent-dot"></span>
+                        <div>
+                            <strong>Support</strong>
+                            <p>Refunds, bugs, account issues, and customer help.</p>
                         </div>
                     </div>
-                    <div class="agent-item">
-                        <span class="agent-icon">🛍️</span>
-                        <div class="agent-info">
-                            <div class="agent-name">Sales</div>
-                            <div class="agent-status">Ready</div>
+                    <div class="agent-item sales">
+                        <span class="agent-dot"></span>
+                        <div>
+                            <strong>Sales</strong>
+                            <p>Plans, pricing, demos, trials, and buying questions.</p>
                         </div>
                     </div>
-                    <div class="agent-item">
-                        <span class="agent-icon">⚙️</span>
-                        <div class="agent-info">
-                            <div class="agent-name">Ops</div>
-                            <div class="agent-status">Ready</div>
+                    <div class="agent-item ops">
+                        <span class="agent-dot"></span>
+                        <div>
+                            <strong>Ops</strong>
+                            <p>Workflow changes, admin requests, and CRM updates.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="model-info">
-                <strong>Model:</strong>
-                <p>llama-3.3-70b-versatile</p>
+            <div class="panel-card">
+                <p class="card-title">Try a prompt</p>
+                <div class="prompt-list">
+                    <button type="button" class="prompt-button" data-prompt="I need a refund for a duplicate charge on my account.">Refund request</button>
+                    <button type="button" class="prompt-button" data-prompt="Can you walk me through pricing for a 50-person team?">Pricing question</button>
+                    <button type="button" class="prompt-button" data-prompt="Please update the onboarding workflow and mark the CRM record as active.">Ops request</button>
+                </div>
+            </div>
+
+            <div class="panel-card status-card">
+                <p class="card-title">Conversation state</p>
+                <div class="status-line">
+                    <span class="status-pill"></span>
+                    <p>Persistent browser memory enabled</p>
+                </div>
+                <div class="status-line">
+                    <span class="status-pill"></span>
+                    <p>Backend user memory fallback enabled</p>
+                </div>
+                <div class="status-line">
+                    <span class="status-pill"></span>
+                    <p>Agent lane and confidence metadata available on each response</p>
+                </div>
             </div>
         </aside>
 
-        <!-- Main Chat Area -->
-        <main class="chat-container">
-            <!-- Header -->
+        <main class="chat-stage">
             <header class="chat-header">
-                <div class="header-content">
-                    <h1>Chat with AI Workforce</h1>
-                    <p>Messages are routed to the right agent automatically</p>
+                <div>
+                    <p class="eyebrow">Live Chat</p>
+                    <h2>Ask once, keep the thread moving</h2>
+                    <p class="header-copy">
+                        Messages stay in context so the orchestrator can keep routing with the full thread in mind.
+                    </p>
                 </div>
-                <button class="btn-clear" title="Clear chat history">🗑️</button>
+
+                <div class="header-actions">
+                    <div class="identity-pill">
+                        <span class="identity-label">Session user</span>
+                        <strong id="user-badge">-</strong>
+                    </div>
+                    <button class="btn-clear" id="clear-chat" type="button">Clear chat</button>
+                </div>
             </header>
 
-            <!-- Messages -->
-            <div class="messages-wrapper">
-                <div class="messages" id="messages">
-                    <div class="message system">
-                        <div class="message-content">
-                            <p>Welcome! Chat with our AI agents. They'll help with support, sales, or operations inquiries.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <section class="messages-wrapper" id="messages-wrapper">
+                <div class="messages" id="messages"></div>
+            </section>
 
-            <!-- Input Area -->
-            <footer class="chat-footer">
-                <form id="chat-form" class="input-form">
-                    <input 
-                        type="text" 
-                        id="message-input" 
-                        class="message-input" 
-                        placeholder="Type your message... (can also use Shift+Enter for newline)"
+            <footer class="composer">
+                <div class="composer-meta">
+                    <span id="conversation-count">0 messages</span>
+                    <span>Enter to send, Shift + Enter for a new line</span>
+                </div>
+                <form id="chat-form" class="composer-form">
+                    <label class="sr-only" for="message-input">Message</label>
+                    <textarea
+                        id="message-input"
+                        class="message-input"
+                        rows="1"
+                        placeholder="Describe the customer or internal request you want to route..."
                         autocomplete="off"
-                    />
-                    <button type="submit" class="btn-send" id="send-btn">
-                        <span>Send</span>
-                        <span class="send-icon">→</span>
-                    </button>
+                    ></textarea>
+                    <button type="submit" class="send-button" id="send-btn">Send</button>
                 </form>
-                <p class="input-hint">Tip: Messages are automatically routed to Support, Sales, or Ops agents based on content.</p>
             </footer>
         </main>
     </div>

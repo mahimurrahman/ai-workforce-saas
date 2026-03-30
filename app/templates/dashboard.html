@@ -7,126 +7,269 @@
     <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-top">
-                <h1>{{ project_name }}</h1>
-                <div class="health-badge">
-                    <span class="status-dot ok"></span>
-                    <span>System Healthy</span>
-                </div>
-            </div>
-            <p class="subtitle">Intelligent agent orchestration system | Model: llama-3.3-70b-versatile</p>
-        </header>
+    <div class="page-shell">
+        <div class="ambient ambient-one"></div>
+        <div class="ambient ambient-two"></div>
 
-        <section class="agents-grid">
-            <article class="agent-card">
-                <div class="agent-header">
-                    <h3>💬 Support Agent</h3>
-                    <span class="status-badge ready">{{ status_items.get('support', 'ready') }}</span>
-                </div>
-                <p class="agent-desc">Handles customer support, refunds, account issues, and technical help</p>
-                <div class="example-keywords">
-                    <strong>Keywords:</strong> help, refund, support, ticket, account
-                </div>
-            </article>
+        <main class="container">
+            <section class="hero-panel">
+                <div class="hero-copy">
+                    <p class="eyebrow">AI Workforce Control Room</p>
+                    <h1>{{ project_name }}</h1>
+                    <p class="hero-text">
+                        Route every customer message through the right specialist lane, keep conversation memory intact,
+                        and test Support, Sales, and Ops from one place.
+                    </p>
 
-            <article class="agent-card">
-                <div class="agent-header">
-                    <h3>🛍️ Sales Agent</h3>
-                    <span class="status-badge ready">{{ status_items.get('sales', 'ready') }}</span>
+                    <div class="hero-actions">
+                        <a class="btn-primary" href="/chat">Open Live Workspace</a>
+                        <a class="btn-secondary" href="#playground">Test Routing</a>
+                    </div>
                 </div>
-                <p class="agent-desc">Manages sales inquiries, pricing, demos, and new customer leads</p>
-                <div class="example-keywords">
-                    <strong>Keywords:</strong> price, buy, demo, pricing, trial
-                </div>
-            </article>
 
-            <article class="agent-card">
-                <div class="agent-header">
-                    <h3>⚙️ Ops Agent</h3>
-                    <span class="status-badge ready">{{ status_items.get('ops', 'ready') }}</span>
+                <div class="hero-status">
+                    <div class="status-chip">
+                        <span class="status-dot ok"></span>
+                        <span>System healthy</span>
+                    </div>
+                    <p class="hero-meta">Model lane: llama-3.3-70b-versatile</p>
+                    <p class="hero-meta">Routing memory is ready for multi-turn conversations.</p>
                 </div>
-                <p class="agent-desc">Manages workflows, admin tasks, data processing, and CRM operations</p>
-                <div class="example-keywords">
-                    <strong>Keywords:</strong> workflow, admin, data, process, CRM
-                </div>
-            </article>
-        </section>
+            </section>
 
-        <section class="test-section">
-            <h2>Test Your Agents</h2>
-            <div class="test-container">
-                <div class="form-wrapper">
-                    <form id="chat-form">
-                        <div class="form-group">
-                            <label for="message">Message:</label>
-                            <textarea id="message" placeholder="Try: 'I need help with my order' or 'What's your pricing?'" required></textarea>
+            <section class="metrics-grid" aria-label="Overview metrics">
+                <article class="metric-card">
+                    <p class="metric-label">Agents Online</p>
+                    <p class="metric-value">3 / 3</p>
+                    <p class="metric-note">Support, Sales, and Ops are available.</p>
+                </article>
+
+                <article class="metric-card">
+                    <p class="metric-label">Shared Context</p>
+                    <p class="metric-value">Persistent</p>
+                    <p class="metric-note">Browser history and backend memory fallback are active.</p>
+                </article>
+
+                <article class="metric-card">
+                    <p class="metric-label">Routing Mode</p>
+                    <p class="metric-value">Keyword + Agent</p>
+                    <p class="metric-note">Requests are classified and handed to the best lane.</p>
+                </article>
+            </section>
+
+            <section class="section-block">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Agent Lanes</p>
+                        <h2>Each team owns a different kind of work</h2>
+                    </div>
+                    <p class="section-copy">
+                        Keep a clear view of what each agent is optimized for before you test real requests.
+                    </p>
+                </div>
+
+                <div class="agents-grid">
+                    <article class="agent-card support">
+                        <div class="agent-header">
+                            <div>
+                                <p class="agent-kicker">Lane 01</p>
+                                <h3>Support Agent</h3>
+                            </div>
+                            <span class="status-badge ready">{{ status_items.get('support', 'ready') }}</span>
                         </div>
-                        <div class="form-group">
-                            <label for="user_id">User ID:</label>
-                            <input type="number" id="user_id" value="1" required />
+                        <p class="agent-desc">
+                            Handles refunds, account questions, login issues, troubleshooting, and customer care follow-up.
+                        </p>
+                        <div class="keyword-list">
+                            <span>help</span>
+                            <span>refund</span>
+                            <span>support</span>
+                            <span>ticket</span>
+                            <span>account</span>
                         </div>
-                        <button type="submit" class="btn-send">Send Message</button>
-                    </form>
-                </div>
-                <div class="response-wrapper">
-                    <h3>Response:</h3>
-                    <pre id="response">Ready to receive messages...</pre>
-                </div>
-            </div>
-        </section>
+                    </article>
 
-        <section class="activity">
-            <h2>Quick Start</h2>
-            <div class="quick-start">
-                <p>✓ All agents are running and ready</p>
-                <p>✓ Set your GROQ_API_KEY in .env to enable real AI responses</p>
-                <p>✓ Use the form above to test agent routing (selected by message keywords)</p>
-                <p>✓ Or send requests via API: <code>POST /api/chat</code></p>
-            </div>
-        </section>
+                    <article class="agent-card sales">
+                        <div class="agent-header">
+                            <div>
+                                <p class="agent-kicker">Lane 02</p>
+                                <h3>Sales Agent</h3>
+                            </div>
+                            <span class="status-badge ready">{{ status_items.get('sales', 'ready') }}</span>
+                        </div>
+                        <p class="agent-desc">
+                            Handles pricing, plan selection, demos, trials, and pre-purchase conversations.
+                        </p>
+                        <div class="keyword-list">
+                            <span>price</span>
+                            <span>buy</span>
+                            <span>demo</span>
+                            <span>pricing</span>
+                            <span>trial</span>
+                        </div>
+                    </article>
+
+                    <article class="agent-card ops">
+                        <div class="agent-header">
+                            <div>
+                                <p class="agent-kicker">Lane 03</p>
+                                <h3>Ops Agent</h3>
+                            </div>
+                            <span class="status-badge ready">{{ status_items.get('ops', 'ready') }}</span>
+                        </div>
+                        <p class="agent-desc">
+                            Handles workflows, admin tasks, data updates, CRM operations, and internal process requests.
+                        </p>
+                        <div class="keyword-list">
+                            <span>workflow</span>
+                            <span>admin</span>
+                            <span>data</span>
+                            <span>process</span>
+                            <span>crm</span>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section-block layout-two-column">
+                <article class="playbook-card">
+                    <p class="eyebrow">Routing Flow</p>
+                    <h2>What happens after a message comes in</h2>
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <span>1</span>
+                            <div>
+                                <strong>Capture</strong>
+                                <p>The app receives the user message and attached conversation history.</p>
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <span>2</span>
+                            <div>
+                                <strong>Classify</strong>
+                                <p>The orchestrator picks the best agent lane for the request.</p>
+                            </div>
+                        </div>
+                        <div class="flow-step">
+                            <span>3</span>
+                            <div>
+                                <strong>Respond</strong>
+                                <p>The chosen agent returns a response with lane and confidence metadata.</p>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="quick-start-card">
+                    <p class="eyebrow">Launch Checklist</p>
+                    <h2>Best next steps before production traffic</h2>
+                    <ul class="check-list">
+                        <li>Set `GROQ_API_KEY` in `.env` for live model responses.</li>
+                        <li>Use the playground below to validate routing behavior.</li>
+                        <li>Open the live chat page for a full multi-turn workflow test.</li>
+                        <li>Integrate your own logs and database-backed activity over time.</li>
+                    </ul>
+                </article>
+            </section>
+
+            <section class="section-block playground-block" id="playground">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Playground</p>
+                        <h2>Test the routing engine</h2>
+                    </div>
+                    <p class="section-copy">
+                        Use sample prompts or type your own message to see which agent responds and how confident the router is.
+                    </p>
+                </div>
+
+                <div class="prompt-row">
+                    <button class="prompt-chip" type="button" data-prompt="I need help resetting my account password after being locked out.">Support example</button>
+                    <button class="prompt-chip" type="button" data-prompt="Can you show me pricing options for a 25-seat team plan?">Sales example</button>
+                    <button class="prompt-chip" type="button" data-prompt="Please update the onboarding workflow and sync the CRM status for this lead.">Ops example</button>
+                </div>
+
+                <div class="test-container">
+                    <div class="form-wrapper">
+                        <form id="chat-form">
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" placeholder="Describe the customer or internal request you want to route." required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="user_id">User ID</label>
+                                <input type="number" id="user_id" value="1" required />
+                            </div>
+                            <button type="submit" class="btn-send">Send Message</button>
+                        </form>
+                    </div>
+
+                    <div class="response-wrapper">
+                        <div class="response-header">
+                            <h3>Latest Response</h3>
+                            <span class="response-hint">Ctrl + Enter to submit</span>
+                        </div>
+                        <pre id="response">Ready to receive messages...</pre>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 
     <script>
-        const form = document.getElementById('chat-form');
-        const responseElement = document.getElementById('response');
+        const form = document.getElementById("chat-form");
+        const messageInput = document.getElementById("message");
+        const responseElement = document.getElementById("response");
+        const promptButtons = document.querySelectorAll("[data-prompt]");
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const message = document.getElementById('message').value;
-            const user_id = Number(document.getElementById('user_id').value);
+        promptButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                messageInput.value = button.dataset.prompt;
+                messageInput.focus();
+            });
+        });
 
-            responseElement.textContent = '⏳ Sending message...';
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const message = messageInput.value.trim();
+            const userId = Number(document.getElementById("user_id").value);
+
+            if (!message) {
+                return;
+            }
+
+            responseElement.textContent = "Sending message...";
 
             try {
-                const res = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message, user_id }),
+                const response = await fetch("/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message, user_id: userId }),
                 });
-                
-                if (!res.ok) {
-                    throw new Error(`HTTP ${res.status}`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
                 }
-                
-                const data = await res.json();
-                let displayText = `Agent: ${data.agent_type.toUpperCase()}\n`;
-                displayText += `Confidence: ${(data.confidence * 100).toFixed(0)}%\n`;
-                displayText += `\n${data.response}`;
-                responseElement.textContent = displayText;
-                
-                // Scroll to response
-                responseElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            } catch (err) {
-                responseElement.textContent = '❌ Error: ' + err.message;
+
+                const data = await response.json();
+                const confidence = typeof data.confidence === "number"
+                    ? `${(data.confidence * 100).toFixed(0)}%`
+                    : "n/a";
+
+                responseElement.textContent =
+                    `Agent: ${String(data.agent_type || "unknown").toUpperCase()}\n` +
+                    `Confidence: ${confidence}\n\n` +
+                    `${data.response}`;
+
+                responseElement.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            } catch (error) {
+                responseElement.textContent = `Error: ${error.message}`;
             }
         });
 
-        // Example click handlers
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && e.ctrlKey) {
-                form.dispatchEvent(new Event('submit'));
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" && event.ctrlKey) {
+                form.dispatchEvent(new Event("submit"));
             }
         });
     </script>
